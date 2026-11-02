@@ -11,6 +11,7 @@ import {
 } from '../types';
 import { EditableHex, EditableNumber, EditableSelect, EditableText } from './Editable';
 import { useFillTable } from './useFillTable';
+import { useResizableColumns } from './useResizableColumns';
 
 const PRG_TYPE_OPTIONS = PRG_TYPES.map((value) => ({ label: value, value }));
 const MEMORY_TYPE_OPTIONS = MEM_MEMORY_TYPES.map((value) => ({ label: value, value }));
@@ -23,8 +24,6 @@ export function MemorySegmentTable() {
   const beginAddMemorySegment = useAppStore((state) => state.beginAddMemorySegment);
   const beginEditMemorySegment = useAppStore((state) => state.beginEditMemorySegment);
   const { ref, bodyHeight } = useFillTable();
-
-  if (!project) return null;
 
   const offsetColumn = (title: string, key: 'offset0' | 'offset1' | 'offset2' | 'offset3' | 'offset4') => ({
     title,
@@ -125,6 +124,10 @@ export function MemorySegmentTable() {
     },
   ];
 
+  const { columns: resizableColumns, totalWidth, components } = useResizableColumns(columns);
+
+  if (!project) return null;
+
   return (
     <div className="tab-panel">
       <div className="tab-toolbar">
@@ -143,10 +146,11 @@ export function MemorySegmentTable() {
           size="small"
           bordered
           rowKey={(record) => `${record.name}-${record.address}-${record.size}`}
-          columns={columns}
+          columns={resizableColumns}
+          components={components}
           dataSource={project.memorySegments}
           pagination={false}
-          scroll={{ x: 1600, y: bodyHeight }}
+          scroll={{ x: totalWidth, y: bodyHeight }}
         />
       </div>
     </div>

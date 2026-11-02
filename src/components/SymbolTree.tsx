@@ -103,7 +103,7 @@ export function SymbolTree() {
           disabled={!selectedSymbol?.isLeaf}
           onClick={() => void beginAddMeasurement()}
         >
-          测量量
+          添加测量量
         </Button>
         <Button
           size="small"
@@ -111,7 +111,7 @@ export function SymbolTree() {
           disabled={!selectedSymbol?.isLeaf}
           onClick={() => void beginAddCharacteristic()}
         >
-          标定量
+          添加标定量
         </Button>
       </div>
     </div>

@@ -5,6 +5,7 @@ import { useAppStore } from '../store';
 import { A2L_DATA_TYPES, type Measurement } from '../types';
 import { EditableHex, EditableNumber, EditableSelect, EditableText } from './Editable';
 import { useFillTable } from './useFillTable';
+import { useResizableColumns } from './useResizableColumns';
 
 const DATA_TYPE_OPTIONS = A2L_DATA_TYPES.map((value) => ({ label: value, value }));
 
@@ -14,8 +15,6 @@ export function MeasurementTable() {
   const removeMeasurement = useAppStore((state) => state.removeMeasurement);
   const beginEditMeasurement = useAppStore((state) => state.beginEditMeasurement);
   const { ref, bodyHeight } = useFillTable();
-
-  if (!project) return null;
 
   const columns: TableProps<Measurement>['columns'] = [
     {
@@ -130,6 +129,10 @@ export function MeasurementTable() {
     },
   ];
 
+  const { columns: resizableColumns, totalWidth, components } = useResizableColumns(columns);
+
+  if (!project) return null;
+
   return (
     <div
       ref={ref}
@@ -141,10 +144,11 @@ export function MeasurementTable() {
         size="small"
         bordered
         rowKey={(record) => record.name}
-        columns={columns}
+        columns={resizableColumns}
+        components={components}
         dataSource={project.measurements}
         pagination={false}
-        scroll={{ x: 1500, y: bodyHeight }}
+        scroll={{ x: totalWidth, y: bodyHeight }}
       />
     </div>
   );

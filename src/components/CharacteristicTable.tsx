@@ -11,6 +11,7 @@ import {
   EditableText,
 } from './Editable';
 import { useFillTable } from './useFillTable';
+import { useResizableColumns } from './useResizableColumns';
 
 const CHARACTERISTIC_TYPE_OPTIONS = CHARACTERISTIC_TYPES.map((value) => ({ label: value, value }));
 const DEPOSIT_OPTIONS = A2L_DATA_TYPES.map((value) => ({ label: `__${value}`, value: `__${value}` }));
@@ -21,8 +22,6 @@ export function CharacteristicTable() {
   const removeCharacteristic = useAppStore((state) => state.removeCharacteristic);
   const beginEditCharacteristic = useAppStore((state) => state.beginEditCharacteristic);
   const { ref, bodyHeight } = useFillTable();
-
-  if (!project) return null;
 
   const columns: TableProps<Characteristic>['columns'] = [
     {
@@ -175,6 +174,10 @@ export function CharacteristicTable() {
     },
   ];
 
+  const { columns: resizableColumns, totalWidth, components } = useResizableColumns(columns);
+
+  if (!project) return null;
+
   return (
     <div
       ref={ref}
@@ -186,10 +189,11 @@ export function CharacteristicTable() {
         size="small"
         bordered
         rowKey={(record) => record.name}
-        columns={columns}
+        columns={resizableColumns}
+        components={components}
         dataSource={project.characteristics}
         pagination={false}
-        scroll={{ x: 1750, y: bodyHeight }}
+        scroll={{ x: totalWidth, y: bodyHeight }}
       />
     </div>
   );

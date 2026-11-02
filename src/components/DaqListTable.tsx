@@ -6,6 +6,7 @@ import { useAppStore } from '../store';
 import type { DaqListConfig } from '../types';
 import { EditableNumber, EditableSelect } from './Editable';
 import { useFillTable } from './useFillTable';
+import { useResizableColumns } from './useResizableColumns';
 
 export function DaqListTable() {
   const project = useAppStore((state) => state.project);
@@ -15,9 +16,9 @@ export function DaqListTable() {
   const openOdt = useAppStore((state) => state.openOdt);
   const { ref, bodyHeight } = useFillTable();
 
-  if (!project) return null;
+  const eventChannels = project?.eventChannels ?? [];
 
-  const eventOptions = project.eventChannels.map((event) => ({
+  const eventOptions = eventChannels.map((event) => ({
     label: `${event.channelNumber} - ${event.name}`,
     value: event.channelNumber,
   }));
@@ -49,7 +50,7 @@ export function DaqListTable() {
           value={record.eventFixed}
           options={eventOptions}
           onChange={(value) => {
-            const event = project.eventChannels.find((item) => item.channelNumber === value);
+            const event = eventChannels.find((item) => item.channelNumber === value);
             patchDaqList(index, { eventFixed: value, ...(event ? { type: event.type } : {}) });
           }}
         />
@@ -117,6 +118,10 @@ export function DaqListTable() {
     },
   ];
 
+  const { columns: resizableColumns, totalWidth, components } = useResizableColumns(columns);
+
+  if (!project) return null;
+
   return (
     <div className="tab-panel">
       <div className="tab-toolbar">
@@ -138,10 +143,11 @@ export function DaqListTable() {
           size="small"
           bordered
           rowKey={(record) => String(record.number)}
-          columns={columns}
+          columns={resizableColumns}
+          components={components}
           dataSource={project.daqLists}
           pagination={false}
-          scroll={{ x: 1000, y: bodyHeight }}
+          scroll={{ x: totalWidth, y: bodyHeight }}
         />
       </div>
     </div>

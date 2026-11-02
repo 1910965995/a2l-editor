@@ -215,6 +215,30 @@ body {
   padding: 3px 6px !important;
 }
 
+.data-table .ant-table-thead > tr > th {
+  position: relative;
+}
+
+.col-resize-handle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 6px;
+  cursor: col-resize;
+  z-index: 2;
+}
+
+.col-resize-handle:hover::after {
+  content: '';
+  position: absolute;
+  top: 25%;
+  bottom: 25%;
+  right: 2px;
+  width: 1px;
+  background: #2563eb;
+}
+
 .data-table .ant-table,
 .data-table .ant-table-container,
 .data-table .ant-table-header,
