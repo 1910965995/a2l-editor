@@ -96,7 +96,7 @@ export default function App() {
             <>
               <div className="main-content">
                 <Splitter>
-                  <Splitter.Panel defaultSize={300} min={220} max={520}>
+                  <Splitter.Panel defaultSize={250} min={250} max={520}>
                     <div className="panel">
                       <div className="panel-header">符号浏览</div>
                       <SymbolTree />
@@ -106,10 +106,10 @@ export default function App() {
                     <div className="panel right-panel">
                       <div className="panel-header">A2L 对象</div>
                       <Splitter layout="vertical" className="right-splitter">
-                        <Splitter.Panel defaultSize="70%" min={180}>
+                        <Splitter.Panel defaultSize="79%" min={180}>
                           <Tabs className="object-tabs" items={tabs} destroyOnHidden />
                         </Splitter.Panel>
-                        <Splitter.Panel defaultSize="30%" min={80} max="60%">
+                        <Splitter.Panel defaultSize="21%" min={80} max="60%">
                           <div className="validation-section">
                             <div className="validation-header">校验信息</div>
                             <div className="validation-panel">

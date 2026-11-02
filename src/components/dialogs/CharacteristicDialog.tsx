@@ -4,7 +4,7 @@ import { A2L_DATA_TYPES, CHARACTERISTIC_TYPES, type Characteristic } from '../..
 import { HexInput } from '../Editable';
 
 const CHARACTERISTIC_TYPE_OPTIONS = CHARACTERISTIC_TYPES.map((value) => ({ label: value, value }));
-const DEPOSIT_OPTIONS = A2L_DATA_TYPES.map((value) => ({ value: `__${value}` }));
+const DEPOSIT_OPTIONS = A2L_DATA_TYPES.map((value) => ({ label: `__${value}`, value: `__${value}` }));
 
 export function CharacteristicDialog() {
   const editor = useAppStore((state) => state.characteristicEditor);
@@ -79,7 +79,7 @@ export function CharacteristicDialog() {
           </Col>
           <Col span={12}>
             <Form.Item label="存储布局 (Deposit)" name="deposit">
-              <AutoComplete options={DEPOSIT_OPTIONS} placeholder="__UWORD" />
+              <Select options={DEPOSIT_OPTIONS} showSearch optionFilterProp="label" placeholder="__UWORD" />
             </Form.Item>
           </Col>
           <Col span={12}>

@@ -2,7 +2,7 @@ import { Button, Checkbox, Space, Table } from 'antd';
 import type { TableProps } from 'antd';
 import type { CSSProperties } from 'react';
 import { useAppStore } from '../store';
-import { CHARACTERISTIC_TYPES, type Characteristic } from '../types';
+import { A2L_DATA_TYPES, CHARACTERISTIC_TYPES, type Characteristic } from '../types';
 import {
   EditableHex,
   EditableNumber,
@@ -13,6 +13,7 @@ import {
 import { useFillTable } from './useFillTable';
 
 const CHARACTERISTIC_TYPE_OPTIONS = CHARACTERISTIC_TYPES.map((value) => ({ label: value, value }));
+const DEPOSIT_OPTIONS = A2L_DATA_TYPES.map((value) => ({ label: `__${value}`, value: `__${value}` }));
 
 export function CharacteristicTable() {
   const project = useAppStore((state) => state.project);
@@ -57,7 +58,11 @@ export function CharacteristicTable() {
       title: '存储布局',
       width: 130,
       render: (_, record, index) => (
-        <EditableText value={record.deposit} onChange={(value) => patchCharacteristic(index, { deposit: value })} />
+        <EditableSelect
+          value={record.deposit}
+          options={DEPOSIT_OPTIONS}
+          onChange={(value) => patchCharacteristic(index, { deposit: value })}
+        />
       ),
     },
     {

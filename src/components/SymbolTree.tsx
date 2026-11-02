@@ -90,7 +90,7 @@ export function SymbolTree() {
         ) : (
           <Empty
             image={Empty.PRESENTED_IMAGE_SIMPLE}
-            description="暂无符号，请在项目设置中加载 ELF/DWARF"
+            description="暂无符号，请加载 ELF/DWARF"
             style={{ marginTop: 40 }}
           />
         )}

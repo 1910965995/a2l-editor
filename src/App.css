@@ -114,6 +114,10 @@ body {
   border-top: 1px solid #eef2f7;
 }
 
+.symbol-actions .ant-btn {
+  flex: 1;
+}
+
 .right-splitter {
   flex: 1;
   min-height: 0;
@@ -199,13 +203,55 @@ body {
   max-height: var(--table-body-height) !important;
 }
 
+.table-fill .ant-table-placeholder > td {
+  height: calc(var(--table-body-height) - 16px) !important;
+}
+
+.table-fill .ant-table-container:has(.ant-table-placeholder) {
+  border-right: 1px solid #f0f0f0;
+}
+
 .data-table .ant-table-cell {
   padding: 3px 6px !important;
 }
 
+.data-table .ant-table,
+.data-table .ant-table-container,
+.data-table .ant-table-header,
+.data-table .ant-table-thead > tr > th:first-child,
+.data-table .ant-table-thead > tr > th:last-child {
+  border-radius: 0 !important;
+}
+
 .data-table .ant-input,
-.data-table .ant-select-selector {
+.data-table .ant-select {
   font-size: 12px;
+}
+
+.data-table .ant-input {
+  border-color: transparent;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 1px 4px;
+}
+
+.data-table .ant-select {
+  border-color: transparent !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.data-table .ant-input:hover,
+.data-table .ant-select:hover {
+  border-color: #cbd5e1 !important;
+}
+
+.data-table .ant-input:focus,
+.data-table .ant-select-focused {
+  border-color: #2563eb !important;
+  background: #ffffff !important;
 }
 
 /* ==================== Preview ==================== */
