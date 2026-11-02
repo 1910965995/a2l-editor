@@ -75,12 +75,12 @@ export function MeasurementDialog() {
               <Input placeholder="%6.2" />
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col span={12}>
             <Form.Item label="最小值" name="lowerLimit">
               <InputNumber style={{ width: '100%' }} />
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col span={12}>
             <Form.Item label="最大值" name="upperLimit">
               <InputNumber style={{ width: '100%' }} />
             </Form.Item>

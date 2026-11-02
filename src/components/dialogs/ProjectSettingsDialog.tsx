@@ -3,7 +3,6 @@ import {
   Button,
   Checkbox,
   Col,
-  Divider,
   Input,
   InputNumber,
   Modal,
@@ -211,7 +210,6 @@ function ProjectSettingsEditor({ project }: { project: A2lProject }) {
 
   const basicTab = (
     <div className="settings-section">
-      <Divider titlePlacement="left">基本设置</Divider>
       <Row gutter={16}>
         <Col span={12}>
           <div className="field-label">项目名称</div>
@@ -284,7 +282,6 @@ function ProjectSettingsEditor({ project }: { project: A2lProject }) {
 
   const elfTab = (
     <div className="settings-section">
-      <Divider titlePlacement="left">加载 ELF/DWARF</Divider>
       <div className="field-label">当前文件</div>
       <div style={{ display: 'flex', gap: 8 }}>
         <Input readOnly value={draft.outFilePath} placeholder="尚未选择 ELF/OUT 文件" />
@@ -296,7 +293,6 @@ function ProjectSettingsEditor({ project }: { project: A2lProject }) {
 
   const daqTab = (
     <div className="settings-section">
-      <Divider titlePlacement="left">DAQ 全局配置</Divider>
       <Row gutter={16}>
         <Col span={12}>
           <div className="field-label">配置模式</div>
@@ -388,7 +384,7 @@ function ProjectSettingsEditor({ project }: { project: A2lProject }) {
             style={{ width: '100%' }}
           />
         </Col>
-        <Col span={8}>
+        <Col span={12}>
           <div className="field-label">支持预分频</div>
           <Select
             value={draft.daq.prescalerSupported}
@@ -397,7 +393,7 @@ function ProjectSettingsEditor({ project }: { project: A2lProject }) {
             style={{ width: '100%' }}
           />
         </Col>
-        <Col span={8}>
+        <Col span={12}>
           <div className="field-label">支持恢复</div>
           <Select
             value={draft.daq.resumeSupported}
@@ -406,7 +402,7 @@ function ProjectSettingsEditor({ project }: { project: A2lProject }) {
             style={{ width: '100%' }}
           />
         </Col>
-        <Col span={8}>
+        <Col span={12}>
           <div className="field-label">支持关闭PID</div>
           <Select
             value={draft.daq.pidOffSupported}
@@ -421,7 +417,6 @@ function ProjectSettingsEditor({ project }: { project: A2lProject }) {
 
   const timestampTab = (
     <div className="settings-section">
-      <Divider titlePlacement="left">时间戳配置</Divider>
       <Checkbox
         checked={draft.daq.timestampSupported}
         onChange={(event) => patchDaq({ timestampSupported: event.target.checked })}
