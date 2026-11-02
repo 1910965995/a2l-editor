@@ -34,7 +34,7 @@ export function ResizableHeaderCell({ width, onResize, children, ...rest }: Resi
   };
 
   return (
-    <th {...rest} style={{ ...rest.style, position: 'relative' }}>
+    <th {...rest}>
       {children}
       {width !== undefined && onResize && (
         <span className="col-resize-handle" onPointerDown={handlePointerDown} />
