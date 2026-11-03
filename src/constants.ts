@@ -7,7 +7,6 @@ import type {
 } from './types';
 
 export const APP_TITLE = 'A2L Editor';
-export const APP_SUBTITLE = 'ASAM MCD-2 MC 文件编辑与生成工具';
 
 export const BYTE_ORDERS = ['MSB_LAST', 'MSB_FIRST'] as const;
 

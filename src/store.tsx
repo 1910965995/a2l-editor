@@ -35,6 +35,7 @@ export interface OdtEditorState {
 
 interface AppState {
   project: A2lProject | null;
+  savedProject: A2lProject | null;
   projectPath: string | null;
   symbols: SymbolNode[];
   searchText: string;
@@ -164,7 +165,9 @@ export const useAppStore = create<AppState>((set, get) => {
     const symbols = await api.loadSymbols(path);
     const current = get().project;
     if (!current) return symbols;
-    const updated = updateOutFilePath ? { ...current, outFilePath: path } : current;
+    const updated = updateOutFilePath && normalizePath(current.outFilePath) !== normalizePath(path)
+      ? { ...current, outFilePath: path }
+      : current;
     set({ project: updated, symbols, selectedSymbol: null });
     await get().refreshPreview();
     await checkAddressChanges(updated, symbols);
@@ -178,6 +181,7 @@ export const useAppStore = create<AppState>((set, get) => {
 
   return {
     project: null,
+    savedProject: null,
     projectPath: null,
     symbols: [],
     searchText: '',
@@ -196,7 +200,7 @@ export const useAppStore = create<AppState>((set, get) => {
       set({ loading: true });
       try {
         const project = await api.newProject();
-        set({ project, status: '就绪', loading: false });
+        set({ project, savedProject: project, status: '就绪', loading: false });
         await get().refreshPreview();
       } catch (error) {
         set({ status: `初始化失败：${error}`, loading: false });
@@ -212,6 +216,7 @@ export const useAppStore = create<AppState>((set, get) => {
       const project = await api.newProject();
       set({
         project,
+        savedProject: project,
         projectPath: null,
         symbols: [],
         selectedSymbol: null,
@@ -233,6 +238,7 @@ export const useAppStore = create<AppState>((set, get) => {
         const project = await api.loadProject(path);
         set({
           project,
+          savedProject: project,
           projectPath: path,
           symbols: [],
           selectedSymbol: null,
@@ -293,7 +299,7 @@ export const useAppStore = create<AppState>((set, get) => {
 
       try {
         const saved = await api.saveProject(path, project);
-        set({ project: saved, projectPath: path });
+        set({ project: saved, savedProject: saved, projectPath: path });
         await get().refreshPreview();
         set({ status: `项目已保存：${basename(path)}` });
       } catch (error) {

@@ -1,28 +1,60 @@
 import {
   ExportOutlined,
   FileAddOutlined,
+  FileTextOutlined,
   FolderOpenOutlined,
   SaveOutlined,
   SettingOutlined,
 } from '@ant-design/icons';
+import { getCurrentWindow } from '@tauri-apps/api/window';
 import { Button, Space } from 'antd';
-import { APP_SUBTITLE, APP_TITLE } from '../constants';
+import { useEffect } from 'react';
+import { isTauri } from '../api';
+import { APP_TITLE } from '../constants';
 import { useAppStore } from '../store';
 
+const basename = (path: string): string => path.replace(/\\/g, '/').split('/').pop() ?? path;
+
 export function Toolbar() {
+  const project = useAppStore((state) => state.project);
+  const projectPath = useAppStore((state) => state.projectPath);
+  const dirty = useAppStore((state) => state.project !== null && state.project !== state.savedProject);
   const newProject = useAppStore((state) => state.newProject);
   const openProject = useAppStore((state) => state.openProject);
   const saveProject = useAppStore((state) => state.saveProject);
   const openSettings = useAppStore((state) => state.openSettings);
   const exportA2l = useAppStore((state) => state.exportA2l);
 
+  const fileName = project ? (projectPath ? basename(projectPath) : '未命名工程') : null;
+
+  useEffect(() => {
+    const title = fileName ? `${dirty ? '*' : ''}${fileName} - ${APP_TITLE}` : APP_TITLE;
+    document.title = title;
+    if (isTauri) {
+      void getCurrentWindow().setTitle(title).catch(() => undefined);
+    }
+  }, [fileName, dirty]);
+
   return (
     <div className="toolbar">
-      <div className="brand">
-        <div className="brand-title">
-          {APP_TITLE} <span className="brand-version">v1.0</span>
+      <div className="project-summary">
+        <div className="project-icon">
+          <FileTextOutlined />
         </div>
-        <div className="brand-subtitle">{APP_SUBTITLE}</div>
+        <div className="project-meta">
+          <div className="project-title-row">
+            <span className="project-file" title={projectPath ?? '尚未保存到文件'}>
+              {fileName ?? '正在加载…'}
+            </span>
+            {dirty && <span className="dirty-dot" title="有未保存的修改" />}
+            {project && <span className="platform-tag">{project.targetPlatform}</span>}
+          </div>
+          <div className="project-subtitle">
+            {project
+              ? `${project.projectName}${project.moduleName ? ` · 模块 ${project.moduleName}` : ''}`
+              : '正在加载项目…'}
+          </div>
+        </div>
       </div>
 
       <Space size={8} wrap>
