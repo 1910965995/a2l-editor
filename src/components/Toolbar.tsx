@@ -51,7 +51,7 @@ export function Toolbar() {
           </div>
           <div className="project-subtitle">
             {project
-              ? `${project.projectName}${project.moduleName ? ` · 模块 ${project.moduleName}` : ''}`
+              ? `${project.projectName}${project.moduleName ? ` · ${project.moduleName}` : ''}`
               : '正在加载项目…'}
           </div>
         </div>
