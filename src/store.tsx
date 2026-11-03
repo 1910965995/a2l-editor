@@ -292,7 +292,7 @@ export const useAppStore = create<AppState>((set, get) => {
       const project = get().project;
       if (!project) return;
       const path = await saveFileDialog({
-        defaultPath: `${project.projectName || 'Project'}.xml`,
+        defaultPath: `${project.projectName || 'Project'}.a2lproj`,
         filters: PROJECT_FILE_FILTERS,
       });
       if (!path) return;

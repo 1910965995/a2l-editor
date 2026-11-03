@@ -76,5 +76,5 @@ export async function saveFileDialog(options: DialogOptions): Promise<string | n
       defaultPath: options.defaultPath,
     });
   }
-  return mockPath(options, 'xml');
+  return mockPath(options, 'a2lproj');
 }

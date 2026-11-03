@@ -96,7 +96,7 @@ export const OUT_FILE_FILTERS = [
   { name: '所有文件', extensions: ['*'] },
 ];
 
-export const PROJECT_FILE_FILTERS = [{ name: 'A2L Editor 工程', extensions: ['xml'] }];
+export const PROJECT_FILE_FILTERS = [{ name: 'A2L Editor 工程', extensions: ['a2lproj'] }];
 export const A2L_FILE_FILTERS = [{ name: 'A2L 文件', extensions: ['a2l'] }];
 
 export function defaultDaqConfig(): DaqConfig {
