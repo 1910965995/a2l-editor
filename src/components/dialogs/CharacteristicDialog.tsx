@@ -1,10 +1,19 @@
 import { AutoComplete, Col, Form, Input, InputNumber, Modal, Row, Select } from 'antd';
+import { useLayoutEffect } from 'react';
 import { useAppStore } from '../../store';
 import { A2L_DATA_TYPES, CHARACTERISTIC_TYPES, type Characteristic } from '../../types';
 import { HexInput } from '../Editable';
 
 const CHARACTERISTIC_TYPE_OPTIONS = CHARACTERISTIC_TYPES.map((value) => ({ label: value, value }));
 const DEPOSIT_OPTIONS = A2L_DATA_TYPES.map((value) => ({ label: `__${value}`, value: `__${value}` }));
+
+const toFormValues = (value: Characteristic) => ({
+  ...value,
+  extendedLowerLimit:
+    value.extendedLowerLimit <= -Number.MAX_VALUE ? undefined : value.extendedLowerLimit,
+  extendedUpperLimit:
+    value.extendedUpperLimit >= Number.MAX_VALUE ? undefined : value.extendedUpperLimit,
+});
 
 export function CharacteristicDialog() {
   const editor = useAppStore((state) => state.characteristicEditor);
@@ -13,15 +22,15 @@ export function CharacteristicDialog() {
   const cancelCharacteristic = useAppStore((state) => state.cancelCharacteristic);
   const [form] = Form.useForm();
 
-  const initialValues = editor
-    ? {
-        ...editor.value,
-        extendedLowerLimit:
-          editor.value.extendedLowerLimit <= -Number.MAX_VALUE ? undefined : editor.value.extendedLowerLimit,
-        extendedUpperLimit:
-          editor.value.extendedUpperLimit >= Number.MAX_VALUE ? undefined : editor.value.extendedUpperLimit,
-      }
-    : undefined;
+  // 表单实例跨会话复用，rc-form 重挂载时旧 store 值会覆盖新的 initialValues，
+  // 必须在每次打开时强制写入当前会话的值，否则显示上一次的变量。
+  useLayoutEffect(() => {
+    if (editor) {
+      form.setFieldsValue(toFormValues(editor.value));
+    }
+  }, [editor, form]);
+
+  const initialValues = editor ? toFormValues(editor.value) : undefined;
 
   const handleOk = async () => {
     if (!editor) return;

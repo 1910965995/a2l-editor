@@ -1,4 +1,5 @@
 import { Col, Form, Input, InputNumber, Modal, Row, Select } from 'antd';
+import { useLayoutEffect } from 'react';
 import { useAppStore } from '../../store';
 import {
   MEM_ATTRIBUTES,
@@ -17,6 +18,14 @@ export function MemorySegmentDialog() {
   const commitMemorySegment = useAppStore((state) => state.commitMemorySegment);
   const cancelMemorySegment = useAppStore((state) => state.cancelMemorySegment);
   const [form] = Form.useForm();
+
+  // 表单实例跨会话复用，rc-form 重挂载时旧 store 值会覆盖新的 initialValues，
+  // 必须在每次打开时强制写入当前会话的值，否则显示上一次的内容。
+  useLayoutEffect(() => {
+    if (editor) {
+      form.setFieldsValue(editor.value);
+    }
+  }, [editor, form]);
 
   const handleOk = async () => {
     if (!editor) return;
