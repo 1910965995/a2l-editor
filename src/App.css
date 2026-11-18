@@ -165,6 +165,7 @@ body {
 
 .symbol-actions .ant-btn {
   flex: 1;
+  height: 31.2px;
 }
 
 .right-splitter {
