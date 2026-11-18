@@ -1,5 +1,5 @@
 use a2l_editor_lib::model::*;
-use a2l_editor_lib::{a2l, address, project_xml, typemap, validate};
+use a2l_editor_lib::{a2l, address, factory, project_xml, typemap, validate};
 
 fn sample_project() -> A2lProject {
     let mut project = A2lProject::default();
@@ -50,6 +50,21 @@ fn address_conversion_handles_word_addressing() {
     assert_eq!(address::to_ecu_address(0x9000, AddressMode::Raw), 0x9000);
     assert_eq!(address::to_ecu_address(0x9000, AddressMode::ByteAddress), 0x9000);
     assert_eq!(address::to_ecu_address(0x9000, AddressMode::WordAddress), 0x12000);
+}
+
+#[test]
+fn new_characteristic_extended_limits_match_data_type_limits() {
+    let symbol = SymbolNode {
+        suggested_data_type: A2lDataType::SBYTE,
+        ..SymbolNode::leaf("value".to_string(), "value".to_string(), 0x1000, 1)
+    };
+
+    let characteristic = factory::create_characteristic(&symbol, AddressMode::Raw);
+
+    assert_eq!(characteristic.lower_limit, i8::MIN as f64);
+    assert_eq!(characteristic.upper_limit, i8::MAX as f64);
+    assert_eq!(characteristic.extended_lower_limit, characteristic.lower_limit);
+    assert_eq!(characteristic.extended_upper_limit, characteristic.upper_limit);
 }
 
 #[test]

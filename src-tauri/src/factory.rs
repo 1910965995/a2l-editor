@@ -36,6 +36,8 @@ pub fn create_characteristic(symbol: &SymbolNode, address_mode: AddressMode) -> 
         deposit: format!("__{}", symbol.suggested_data_type.as_str()),
         lower_limit: lower,
         upper_limit: upper,
+        extended_lower_limit: lower,
+        extended_upper_limit: upper,
         ..Characteristic::default()
     }
 }

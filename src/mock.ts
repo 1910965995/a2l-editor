@@ -341,8 +341,8 @@ export async function mockInvoke(command: string, args?: Record<string, unknown>
         characteristicType: 'VALUE',
         deposit: `__${symbol.suggestedDataType}`,
         maxDiff: 0,
-        extendedLowerLimit: -Number.MAX_VALUE,
-        extendedUpperLimit: Number.MAX_VALUE,
+        extendedLowerLimit: LIMITS[symbol.suggestedDataType][0],
+        extendedUpperLimit: LIMITS[symbol.suggestedDataType][1],
       } satisfies Characteristic;
     }
     case 'file_exists':
